@@ -6,7 +6,6 @@ def cleanAndBinarize(img):
     blurredG = cv2.GaussianBlur(gray, (3,3), 0)
 
     _, binary = cv2.threshold(blurredG, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    adaptiveBinary = cv2.adaptiveThreshold(blurredG, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1))
     cleaned = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
