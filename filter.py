@@ -1,0 +1,1 @@
+# Borrar los 10 primeros pixeles de la imagen
