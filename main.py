@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 
-from preprocessing import cleanAndBinarize, staffLineDetectionAndRemoval
+from not_used.preprocessing import cleanAndBinarize, staffLineDetectionAndRemoval
 
 if __name__ == "__main__":
     carpetaImages = './data/images'
