@@ -1,4 +1,4 @@
-barline
+barline- 
 clef-C1
 clef-C2
 clef-C3
@@ -1739,7 +1739,7 @@ rest-thirty_second
 rest-whole
 rest-whole.
 rest-whole_fermata
-tie
+tie- 
 timeSignature-11/4
 timeSignature-1/2
 timeSignature-12/16

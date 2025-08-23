@@ -2,18 +2,15 @@ import cv2
 import numpy as np
 import os
 
-from not_used.preprocessing import cleanAndBinarize, staffLineDetectionAndRemoval
+from reconocimiento import inferencia
+from semantic_midi import partitura
+
+RUTA_MODELO = "modelos/semantic_model.meta"
+RUTA_VOCABULARIO = "datos/vocabulary_semantic.txt"
+RUTA_IMAGEN = "datos/images/000113818-1_1_1.png"
+SALIDA_MIDI = "salida.mid"
 
 if __name__ == "__main__":
-    carpetaImages = './data/images'
-
-    imagenes = os.listdir(carpetaImages)
-
-    imagen = [f for f in imagenes]
-
-    for img in imagen:
-        ruta_img = os.path.join(carpetaImages, img)
-        cleanAndBinarize(ruta_img)
-        staffLineDetectionAndRemoval()
-    
-    cv2.destroyAllWindows()
+    tokens = inferencia(RUTA_IMAGEN, RUTA_MODELO, RUTA_VOCABULARIO)
+    print(tokens)
+    partitura(tokens, SALIDA_MIDI)
