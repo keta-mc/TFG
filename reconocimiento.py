@@ -12,5 +12,4 @@ def inferencia(ruta_imagen, ruta_modelo, ruta_vocabulario):
         text=True
     )
     prediccion = resultado.stdout.strip()
-    print(prediccion.split())
     return(prediccion.split())

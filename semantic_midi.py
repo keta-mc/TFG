@@ -118,12 +118,9 @@ def partitura(tokens, ruta_salida):
 
     compas_actual.makeAccidentals(inPlace=True, useKeySignature=True) # eliminar alteraciones accidentales redundantes
  
-    partitura.show('text')
-    partitura.show() 
+    partitura.show('text') 
 
     mf = midi.translate.streamToMidiFile(partitura)
     mf.open(ruta_salida, 'wb')
     mf.write()
     mf.close()  
-
-     
