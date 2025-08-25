@@ -4,7 +4,7 @@ Este proyecto implementa un sistema de Optical Music Recognition (OMR) de partit
 
 ## Descripción
 
-Este es un sistema que reconoce elementos musicales en imágenes de partituras monofónicas, los convierte a un archivo MIDI mediante music21 y reproduce automáticamente con pygame. Utiliza los archivos de inferencia desarrollados por Jorge Calvo Zaragoza que son parte del respositorio utilizado para el paper [End-to-End Neural Optical Music Recognition of Monophonic Scores](http://www.mdpi.com/2076-3417/8/4/606). 
+Este es un sistema que reconoce elementos musicales en imágenes de partituras monofónicas, los convierte a un archivo MIDI mediante music21 y reproduce automáticamente con pygame. Utiliza los archivos de inferencia desarrollados por Jorge Calvo Zaragoza que son parte del repositorio utilizado para el paper [End-to-End Neural Optical Music Recognition of Monophonic Scores](http://www.mdpi.com/2076-3417/8/4/606). 
 
 
 ## Instalación
