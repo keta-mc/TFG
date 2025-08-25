@@ -4,7 +4,7 @@ Este proyecto implementa un sistema de Optical Music Recognition (OMR) de partit
 
 ## Descripción
 
-Este es un sistema que reconoce elementos musicales en imágenes de partiras monofónicas, los convierte a un archivo MIDI mediante music21 y reproduce automáticamente con pygame. Implementa un sistema de OMR utilizando los archivos de inferencia Jorge Calvo Zaragoza. 
+Este es un sistema que reconoce elementos musicales en imágenes de partituras monofónicas, los convierte a un archivo MIDI mediante music21 y reproduce automáticamente con pygame. Utiliza los archivos de inferencia desarrollados por Jorge Calvo Zaragoza que son parte del respositorio utilizado para el paper [End-to-End Neural Optical Music Recognition of Monophonic Scores](http://www.mdpi.com/2076-3417/8/4/606). 
 
 
 ## Instalación
@@ -14,6 +14,12 @@ Para poder ejecutar el main.py es necesario descargar el modelo semántico utili
 * [modelo semantico](https://grfia.dlsi.ua.es/primus/models/PrIMuS/Semantic-Model.zip)
 
 Además, es necesario clonar archivos de esta repo como vocabulary_semantic.txt, ctc_predict.py y ctc_utils.py.
+
+También es necesario descargar las siguientes librerías de python:
+- OpenCV
+- TensorFlow
+- music21
+- pygame
 ```
 pip3 install opencv-python tensorflow music21 pygame
 ```
@@ -28,10 +34,10 @@ Esto realiza los siguiente pasos:
 2. Pide introducir el nombre del instrumento con el que se desea reproducir la partitura 
 3. Convierte el resultado de la inferencia (semantic) en un archivo MIDI mediante music21
 4. Guarda la salida en el archivo seleccionado en SALIDA_MIDI
-4. Reproduce automáticamente el archivo con pygame
+5. Reproduce automáticamente el archivo con pygame
 
 En la terminal se ve algo del tipo:
-```
+```console
 $ python3 main.py
 pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
 Hello from the pygame community. https://www.pygame.org/contribute.html

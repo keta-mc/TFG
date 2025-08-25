@@ -117,7 +117,7 @@ def partitura(tokens, instrumento, ruta_salida):
                 compas_actual = stream.Measure()
 
     compas_actual.makeAccidentals(inPlace=True, useKeySignature=True) # eliminar alteraciones accidentales redundantes
- 
+
     mf = midi.translate.streamToMidiFile(partitura)
     mf.open(ruta_salida, 'wb')
     mf.write()
