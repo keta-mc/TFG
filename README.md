@@ -30,10 +30,10 @@ pip3 install opencv-python tensorflow music21 pygame
 python3 main.py 
 ```
 Esto realiza los siguiente pasos:
-1. Reconoce los elementos musicales de la imagen indicada en RUTA_IMAGEN
+1. Reconoce los elementos musicales de la imagen indicada en `RUTA_IMAGEN`
 2. Pide introducir el nombre del instrumento con el que se desea reproducir la partitura 
 3. Convierte el resultado de la inferencia (semantic) en un archivo MIDI mediante music21
-4. Guarda la salida en el archivo seleccionado en SALIDA_MIDI
+4. Guarda la salida en el archivo seleccionado en `SALIDA_MIDI`
 5. Reproduce automáticamente el archivo con pygame
 
 En la terminal se ve algo del tipo:
