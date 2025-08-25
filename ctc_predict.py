@@ -1,5 +1,6 @@
 import argparse
-import tensorflow.compat.v1 as tf
+# El TensorFlow instalado es TensorFlow v2 pero el código usa la v1
+import tensorflow.compat.v1 as tf 
 tf.disable_v2_behavior()
 import ctc_utils
 import cv2
