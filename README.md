@@ -95,7 +95,7 @@ A través de la librería pygame se reproduce automáticamente el archivo midi.
 - Python 3.10
 - [music21](https://www.music21.org/music21docs/#)
 - pygame
-- [OpenCV](url-OpenCV)
+- [OpenCV](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html)
 - TensorFlow
 
 Nota: Si usas VS Code asegúrate de configurar el intérprete de Python en settings.json para que incluya la ruta donde está instalado music21.
