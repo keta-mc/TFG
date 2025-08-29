@@ -30,17 +30,21 @@ pip3 install opencv-python tensorflow music21 pygame
 python3 main.py 
 ```
 Esto realiza los siguiente pasos:
-1. Reconoce los elementos musicales de la imagen indicada en `RUTA_IMAGEN`
-2. Pide introducir el nombre del instrumento con el que se desea reproducir la partitura 
-3. Convierte el resultado de la inferencia (semantic) en un archivo MIDI mediante music21
-4. Guarda la salida en el archivo seleccionado en `SALIDA_MIDI`
-5. Reproduce automáticamente el archivo con pygame
+1. Pide que se introduzca el número de pentagramas que tiene la imagen
+2. 1. Si el número de líneas de pentagrama es 1: Reconoce los elementos musicales de la imagen indicada en `RUTA_IMAGEN`
+2. 2. Si el número de líneas de pentagrama es mayor que 1: Crea una carpeta con las diferentes líneas de pentagrama en diferentes imágenes y realiza el proceso de inferencia sobre estas imágenes
+3. Pide introducir el nombre del instrumento con el que se desea reproducir la partitura 
+4. Convierte el resultado de la inferencia (semantic) en un archivo MIDI mediante music21
+5. Guarda la salida en el archivo seleccionado en `SALIDA_MIDI`
+6. Reproduce automáticamente el archivo con pygame
+7. Elimina automáticamente la carpeta creada para procesar las diferentes líneas de pentagrama 
 
 En la terminal se ve algo del tipo:
 ```console
 $ python3 main.py
 pygame 2.6.1 (SDL 2.28.4, Python 3.10.12)
 Hello from the pygame community. https://www.pygame.org/contribute.html
+Introduce el número de pentagramas de la imagen: 1
 Tokens reconocidos:
 ['clef-G2', 'timeSignature-4/4', 'note-C5_eighth', 'note-A4_eighth', 'note-A4_eighth', 'note-E5_eighth', 'note-C5_eighth', 'note-B4_eighth', 'note-A4_eighth', 'note-E5_eighth', 'barline-', 'note-C5_eighth', 'note-C5_eighth', 'note-A4_eighth', 'note-E5_eighth', 'note-C5_eighth', 'note-D5_eighth', 'note-A4_eighth', 'note-E5_eighth', 'barline-', 'note-C5_eighth', 'note-E5_eighth', 'note-A4_eighth', 'note-E5_eighth', 'note-C5_eighth', 'note-F5_eighth', 'note-A4_eighth', 'note-E5_eighth', 'barline-']
 Introduce el instrumento(por defecto 'Piano'): Flauta
@@ -51,6 +55,13 @@ Reproducción terminada.
 
 
 ## Estructura del proyecto
+### preprocesamiento.py: Identificar líneas de pentagrama
+
+En este archivo se define la funcion que identifica las líneas de pentagrama a través de la librería OpenCV. 
+
+Primero se crea una carpeta en la que se guardarán las diferentes imágenes con las diferentes líneas de pentagrama. A continuación, se binariza la imagen y se detectan las líneas horizontales y las posiciones de sus contornos. Luego se agrupan en grupos de 5 líneas en las cuales se conforma un pentagrama. Se forma un rectángulo en la imagen bordeando el grupo con los parámetros x_min, x_max, y_min e y_max, y se recorta la imagen inicial por estas coordenadas. Las imágenes recortadas se guardan en la carpeta creada anteriormente. La función devuelve la ruta de la carpeta en la que se guardan las imágenes.
+
+
 ### ctc_predict.py: OMR
 
 Los archivos ctc_predict.py y ctc_utils.py son importados del github tf-end-to-end de Jorge Calvo Zaragoza. Ambos archivos utilizan OpenCV para el reconocimiento de imágenes.
@@ -84,7 +95,7 @@ A través de la librería pygame se reproduce automáticamente el archivo midi.
 - Python 3.10
 - [music21](https://www.music21.org/music21docs/#)
 - pygame
-- OpenCV
+- [OpenCV](url-OpenCV)
 - TensorFlow
 
 Nota: Si usas VS Code asegúrate de configurar el intérprete de Python en settings.json para que incluya la ruta donde está instalado music21.
