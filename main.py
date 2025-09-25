@@ -7,8 +7,7 @@ from preprocesamiento import detectarLineasPentagrama
 
 RUTA_MODELO = "modelos/semantic_model.meta"
 RUTA_VOCABULARIO = "datos/vocabulary_semantic.txt"
-#RUTA_IMAGEN_INICIAL= "datos/imagenes/foto2.png" 
-RUTA_IMAGEN_INICIAL= "imagen_procesada2/pentagrama_03.png" 
+RUTA_IMAGEN_INICIAL= "datos/imagenes/foto2.png" 
 SALIDA_MIDI = "salida.mid"
 
 if __name__ == "__main__":
