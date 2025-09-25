@@ -80,7 +80,7 @@ def partitura(tokens, instrumento, ruta_salida):
             case 'rest': # los tokens de silencio tienen una estructura del tipo 'rest-quarter'
                 duracion = info.split('_')
                 s = note.Rest()
-                if len(duracion) == 2 and duracion.endswith('fermata') == 'False':
+                if len(duracion) == 2 and duracion[-1] != 'fermata':
                     duracion[0:2] = ['_'.join(duracion[0:2])]
                 s.duration.dots = duracion[0].count('.')
                 duracion[0] = duracion[0].replace('.','')
@@ -117,6 +117,8 @@ def partitura(tokens, instrumento, ruta_salida):
                 compas_actual = stream.Measure()
 
     compas_actual.makeAccidentals(inPlace=True, useKeySignature=True) # eliminar alteraciones accidentales redundantes
+
+    partitura.show()
 
     mf = midi.translate.streamToMidiFile(partitura)
     mf.open(ruta_salida, 'wb')

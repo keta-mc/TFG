@@ -7,7 +7,8 @@ from preprocesamiento import detectarLineasPentagrama
 
 RUTA_MODELO = "modelos/semantic_model.meta"
 RUTA_VOCABULARIO = "datos/vocabulary_semantic.txt"
-RUTA_IMAGEN_INICIAL= "datos/imagenes/foto1.jpeg" 
+#RUTA_IMAGEN_INICIAL= "datos/imagenes/foto2.png" 
+RUTA_IMAGEN_INICIAL= "imagen_procesada2/pentagrama_03.png" 
 SALIDA_MIDI = "salida.mid"
 
 if __name__ == "__main__":
@@ -20,8 +21,8 @@ if __name__ == "__main__":
     
     elif pentagramas > 1: 
         ruta_carpeta_imagenes = detectarLineasPentagrama(RUTA_IMAGEN_INICIAL)
-    
-        imagenes = os.listdir(ruta_carpeta_imagenes)
+
+        imagenes = sorted(os.listdir(ruta_carpeta_imagenes))
         imagenes = [f for f in imagenes]
 
         tokens = []
@@ -31,6 +32,7 @@ if __name__ == "__main__":
             ruta_img = os.path.join(ruta_carpeta_imagenes, img)
 
             token = inferencia(ruta_img, RUTA_MODELO, RUTA_VOCABULARIO)
+            print(token)
             c += 1
             # si token no es el primero eliminar el clef y el timeSignature del resto de elementos
             if c > 1:
