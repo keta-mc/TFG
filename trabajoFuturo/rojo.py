@@ -27,7 +27,7 @@ import cv2
 import os
 import numpy as np
 
-carpeta_salida = "imagen_procesada2"
+carpeta_salida = "/trabajoFuturo/imagen_procesada2"
 os.makedirs(carpeta_salida, exist_ok=True)
 
 imagen = cv2.imread("datos/TAB/unaMattina/pagina_01.png" , cv2.IMREAD_GRAYSCALE)
