@@ -27,7 +27,7 @@ import cv2
 import os
 import numpy as np
 
-carpeta_salida = "/trabajoFuturo/imagen_procesada2"
+carpeta_salida = "trabajoFuturo/imagen_procesada2"
 os.makedirs(carpeta_salida, exist_ok=True)
 
 imagen = cv2.imread("datos/TAB/unaMattina/pagina_01.png" , cv2.IMREAD_GRAYSCALE)
@@ -40,19 +40,27 @@ imagen_clara = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
 #cv2.imshow('img', imagen_clara)
 kernel_vertical = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 15))
 
-barras_y_lineas = cv2.morphologyEx(imagen_clara, cv2.MORPH_OPEN, kernel_vertical, iterations=5)
+barras_y_lineas = cv2.morphologyEx(imagen_clara, cv2.MORPH_ERODE, kernel_vertical, iterations=6)
 
-cv2.imwrite(os.path.join(carpeta_salida, "barras_y_lineas.png"), barras_y_lineas)
+contornosv, _ = cv2.findContours(barras_y_lineas, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-kernel_horizontal = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 1))
+# Inicilizar variables
+x_min = np.inf
+x_max = -np.inf
+
+for cnt in contornosv:
+    # Extraer coordenadas x de los contornos
+    xs = cnt[:, :, 0] # cnt tiene forma (num_puntos, 1, 2), [:, :, 0] son las coordenadas x
+    x_min = min(x_min, xs.min())
+    x_max = max(x_max, xs.max())
+
+kernel_horizontal = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
 
 lineas_detectadas = cv2.morphologyEx(imagen_clara, cv2.MORPH_OPEN, kernel_horizontal, iterations=6) # para THRESH_BINARY_INV
 
-imagen_color = cv2.cvtColor(imagen, cv2.COLOR_GRAY2BGR)
-
 contornos, _ = cv2.findContours(lineas_detectadas, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-#contornos = sorted(contornos, key=lambda c: cv2.boundingRect(c)[1]) # Ordenado por coordenada y
+contornos = sorted(contornos, key=lambda c: cv2.boundingRect(c)[1]) # Ordenado por coordenada y
 
 lineas_tab = np.zeros_like(lineas_detectadas) # Imagen en blanco para dibujar las líneas de interés (TAB)
 lineas_dur = np.zeros_like(lineas_detectadas) # Imagen en blanco para dibujar las líneas de duración de las notas
@@ -61,18 +69,12 @@ for cnt in contornos:
     x, y, w, h = cv2.boundingRect(cnt)
 
     if h <= 3:  # Filtrar por altura
-        cv2.drawContours(lineas_tab, [cnt], -1, 255, thickness=cv2.FILLED) # Dibuja la línea en blanco
-
         y_centro = y + h // 2
-        cv2.line(lineas_tab, (x, y_centro), (x + w, y_centro), 255, 2) # Dibuja una línea blanca en la imagen de TAB
+        cv2.line(lineas_tab, (x_min, y_centro), (x_max, y_centro), 255, 2) # Dibuja una línea blanca en la imagen de TAB
     else:
         cv2.drawContours(lineas_dur, [cnt], -1, 255, thickness=cv2.FILLED) # Dibuja en blanco las líneas de duración
 
 cv2.imwrite(os.path.join(carpeta_salida, "lineas_duracion.png"), lineas_dur)
-
-kernel_union = cv2.getStructuringElement(cv2.MORPH_RECT, (250, 1))
-lineas_tab = cv2.morphologyEx(lineas_tab, cv2.MORPH_CLOSE, kernel_union, iterations=2)
-
 cv2.imwrite(os.path.join(carpeta_salida, "lineas_filtradas.png"), lineas_tab)
 '''for c in contornos:
     x, y, w, h = cv2.boundingRect(c)

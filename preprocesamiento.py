@@ -7,26 +7,14 @@ def detectarLineasPentagrama(img):
 
     imagen = cv2.imread(f"{img}", cv2.IMREAD_GRAYSCALE)
 
-    cv2.imshow('i', imagen)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
     _, binary = cv2.threshold(imagen, 127, 255, cv2.THRESH_BINARY_INV)
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1))
     imagen_clara = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
 
-    cv2.imshow('img', imagen_clara)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
     kernel_horizontal = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
 
     lineas_detectadas = cv2.morphologyEx(imagen_clara, cv2.MORPH_OPEN, kernel_horizontal, iterations=4) # para THRESH_BINARY_INV
-
-    cv2.imshow('lineas', lineas_detectadas)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
     
     contornos, _ = cv2.findContours(lineas_detectadas, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -58,11 +46,7 @@ def detectarLineasPentagrama(img):
 
         if recorte.size == 0:
             continue
-        else:
-            cv2.imshow('recorte', recorte)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-            
+        else:            
             num = i // 5 + 1
             ruta_salida = os.path.join(carpeta_salida, f"pentagrama_{num:02d}.png") # por si hay más de 10 pentagramas, que en el main se ordenen bien
             cv2.imwrite(ruta_salida, recorte)
