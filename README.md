@@ -90,6 +90,10 @@ Para comprobar la correcta conversión de todos los diferentes y posibles elemen
 A través de la librería pygame se reproduce automáticamente el archivo midi.
 
 
+## Trabajo Futuro
+La carpeta trabajoFuturo se centra en investigar una línea principal del trabajo futuro de este proyecto. Esta línea es realizar el sistema de transcripción automática de partituras a imágenes de partituras de tablatura (TAB) de guitarra. Para realizar este sistema se sigue un full-pipeline approach del OMR.
+
+
 ## Dependencias
 
 - Python 3.10
