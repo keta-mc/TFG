@@ -16,6 +16,7 @@ def binarizar(ruta_imagen):
     
     cv2.imwrite(os.path.join(carpeta_salida, "imagen.png"), imagen_clara)
 
+
 def detectarMargenes():
     carpeta_salida = "trabajoFuturo/imagen_procesada2"
 
@@ -38,6 +39,7 @@ def detectarMargenes():
         x_max = max(x_max, xs.max())
 
     return x_max, x_min
+
 
 def detectarTAB(x_max, x_min):
     carpeta_salida = "trabajoFuturo/imagen_procesada2"
@@ -68,3 +70,45 @@ def detectarTAB(x_max, x_min):
 
     cv2.imwrite(os.path.join(carpeta_salida, "lineas_duracion.png"), lineas_dur)
     cv2.imwrite(os.path.join(carpeta_salida, "lineas_filtradas.png"), lineas_tab)
+
+
+def recortarTAB():
+    carpeta_salida = "trabajoFuturo/imagen_procesada2"
+    imagen_clara = cv2.imread(os.path.join(carpeta_salida, "imagen.png"), cv2.IMREAD_GRAYSCALE)
+
+    imagen_lineas_tab = cv2.imread(os.path.join(carpeta_salida, "lineas_filtradas.png"), cv2.IMREAD_GRAYSCALE)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
+    lineas_tab = cv2.morphologyEx(imagen_lineas_tab, cv2.MORPH_OPEN, kernel, iterations=6) # para THRESH_BINARY_INV
+
+    contornosTAB, _ = cv2.findContours(lineas_tab, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    contornosTAB = sorted(contornosTAB, key=lambda c: cv2.boundingRect(c)[1])
+
+    for i in range(0, len(contornosTAB), 6):
+        grupo = contornosTAB[i:i+6]
+        if len(grupo) < 6:
+            continue
+
+        xs, ys, xe, ye = [], [], [], []
+        for g in grupo:
+            x, y, w, h = cv2.boundingRect(g)
+            xs.append(x)
+            ys.append(y)
+            xe.append(x + w)
+            ye.append(y + h)
+
+        x_min = max(0, min(xs) - 10)
+        x_max = max(0, max(xe) + 10)
+        y_min = max(0, min(ys) - 40)
+        y_max = min(imagen_clara.shape[0], max(ye) + 240)
+
+        _, imagen_bin = cv2.threshold(imagen_clara, 127, 255, cv2.THRESH_BINARY)
+
+        recorte = imagen_bin[y_min:y_max, x_min:x_max]
+    
+        if recorte.size == 0:
+            continue
+    
+        num = i // 6 + 1
+        ruta_salida = os.path.join(carpeta_salida, f"pentagrama_{num:02d}.png") # por si hay más de 10 pentagramas, que en el main se ordenen bien
+        cv2.imwrite(ruta_salida, recorte)

@@ -76,20 +76,13 @@ for cnt in contornos:
 
 cv2.imwrite(os.path.join(carpeta_salida, "lineas_duracion.png"), lineas_dur)
 cv2.imwrite(os.path.join(carpeta_salida, "lineas_filtradas.png"), lineas_tab)
-'''for c in contornos:
-    x, y, w, h = cv2.boundingRect(c)
 
-    if h > 5:
-        continue
+contornosTAB, _ = cv2.findContours(lineas_tab, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    y_centro = y + h // 2
+contornosTAB = sorted(contornosTAB, key=lambda c: cv2.boundingRect(c)[1])
 
-    cv2.line(imagen_color, (x, y_centro), (x + w, y_centro), (0, 0, 255), 2) # Dibuja una línea roja en la imagen original
-
-cv2.imwrite(os.path.join(carpeta_salida, "lineas_detectadas.png"), imagen_color)
-
-for i in range(0, len(contornos), 6):
-    grupo = contornos[i:i+6]
+for i in range(0, len(contornosTAB), 6):
+    grupo = contornosTAB[i:i+6]
     if len(grupo) < 6:
         continue
 
@@ -102,11 +95,11 @@ for i in range(0, len(contornos), 6):
         ye.append(y + h)
 
     x_min = max(0, min(xs) - 10)
-    x_max = max(xe)
+    x_max = max(0, max(xe) + 10)
     y_min = max(0, min(ys) - 40)
-    y_max = min(imagen.shape[0], max(ye) + 40)
+    y_max = min(imagen.shape[0], max(ye) + 240)
 
-    cv2.rectangle(imagen_color, (x_min, y_min), (x_max, y_max), (0, 0, 255), 2)
+    # cv2.rectangle(imagen_color, (x_min, y_min), (x_max, y_max), (0, 0, 255), 2)
 
     _, imagen_bin = cv2.threshold(imagen, 127, 255, cv2.THRESH_BINARY)
 
@@ -121,5 +114,5 @@ for i in range(0, len(contornos), 6):
     ruta_salida = os.path.join(carpeta_salida, f"pentagrama_{num:02d}.png") # por si hay más de 10 pentagramas, que en el main se ordenen bien
     cv2.imwrite(ruta_salida, recorte)
 
-cv2.imwrite(os.path.join(carpeta_salida, "imagen_con_recortes.png"), imagen_color)
+#cv2.imwrite(os.path.join(carpeta_salida, "imagen_con_recortes.png"), imagen_color)
 # Guardar la imagen con los rectángulos dibujados'''
