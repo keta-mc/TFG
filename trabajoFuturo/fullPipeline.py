@@ -1,6 +1,7 @@
 import cv2
 import os
 import numpy as np
+from preanalisis import detectarMargenes, detectarTAB
 
 carpeta_salida = "trabajoFuturo/imagen_procesada2"
 
@@ -41,7 +42,3 @@ for contour in contours:
 cv2.imshow('contour', img_with_contour)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-# Eliminar líneas 
-# Capo - cuerdas - detectar números
-# Asociar duración

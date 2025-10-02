@@ -81,6 +81,9 @@ contornosTAB, _ = cv2.findContours(lineas_tab, cv2.RETR_EXTERNAL, cv2.CHAIN_APPR
 
 contornosTAB = sorted(contornosTAB, key=lambda c: cv2.boundingRect(c)[1])
 
+carpeta_salida_pent = "trabajoFuturo/imagen_procesada2/pentagramas"
+os.makedirs(carpeta_salida_pent, exist_ok=True)
+
 for i in range(0, len(contornosTAB), 6):
     grupo = contornosTAB[i:i+6]
     if len(grupo) < 6:
@@ -111,7 +114,7 @@ for i in range(0, len(contornosTAB), 6):
         continue
     
     num = i // 6 + 1
-    ruta_salida = os.path.join(carpeta_salida, f"pentagrama_{num:02d}.png") # por si hay más de 10 pentagramas, que en el main se ordenen bien
+    ruta_salida = os.path.join(carpeta_salida_pent, f"pentagrama_{num:02d}.png") # por si hay más de 10 pentagramas, que en el main se ordenen bien
     cv2.imwrite(ruta_salida, recorte)
 
 #cv2.imwrite(os.path.join(carpeta_salida, "imagen_con_recortes.png"), imagen_color)

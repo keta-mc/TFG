@@ -17,9 +17,7 @@ def binarizar(ruta_imagen):
     cv2.imwrite(os.path.join(carpeta_salida, "imagen.png"), imagen_clara)
 
 
-def detectarMargenes():
-    carpeta_salida = "trabajoFuturo/imagen_procesada2"
-
+def detectarMargenes(carpeta_salida):
     imagen = cv2.imread(os.path.join(carpeta_salida, "imagen.png"), cv2.IMREAD_GRAYSCALE)
 
     kernel_vertical = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 15))
@@ -41,9 +39,7 @@ def detectarMargenes():
     return x_max, x_min
 
 
-def detectarTAB(x_max, x_min):
-    carpeta_salida = "trabajoFuturo/imagen_procesada2"
-
+def detectarTAB(carpeta_salida, x_max, x_min):
     imagen_clara = cv2.imread(os.path.join(carpeta_salida, "imagen.png"), cv2.IMREAD_GRAYSCALE)
 
     x_max, x_min = detectarMargenes()
@@ -73,16 +69,19 @@ def detectarTAB(x_max, x_min):
 
 
 def recortarTAB():
-    carpeta_salida = "trabajoFuturo/imagen_procesada2"
-    imagen_clara = cv2.imread(os.path.join(carpeta_salida, "imagen.png"), cv2.IMREAD_GRAYSCALE)
+    carpeta_entrada = "trabajoFuturo/imagen_procesada2"
+    imagen_clara = cv2.imread(os.path.join(carpeta_entrada, "imagen.png"), cv2.IMREAD_GRAYSCALE)
 
-    imagen_lineas_tab = cv2.imread(os.path.join(carpeta_salida, "lineas_filtradas.png"), cv2.IMREAD_GRAYSCALE)
+    imagen_lineas_tab = cv2.imread(os.path.join(carpeta_entrada, "lineas_filtradas.png"), cv2.IMREAD_GRAYSCALE)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
     lineas_tab = cv2.morphologyEx(imagen_lineas_tab, cv2.MORPH_OPEN, kernel, iterations=6) # para THRESH_BINARY_INV
 
     contornosTAB, _ = cv2.findContours(lineas_tab, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     contornosTAB = sorted(contornosTAB, key=lambda c: cv2.boundingRect(c)[1])
+
+    carpeta_salida = "trabajoFuturo/imagen_procesada2/pentagramas"
+    os.makedirs(carpeta_salida, exist_ok=True)
 
     for i in range(0, len(contornosTAB), 6):
         grupo = contornosTAB[i:i+6]
